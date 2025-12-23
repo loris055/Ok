@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday Adyush</title>
+<style>
+body {
+  background: black;
+  color: white;
+  font-family: "Courier New", monospace;
+  padding: 20px;
+  text-align: center;
+  overflow-x: hidden;
+  margin: 0;
+}
+
+h1 {
+  margin-bottom: 30px;
+}
+
+/* Flashcards container */
+.flashcards-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px; /* manji razmak između kartica */
+  max-height: 80vh; /* zauzima 80% visine ekrana */
+  overflow-y: auto; /* scroll samo dolje ako treba */
+  padding-right: 10px; 
+}
+
+.flashcard {
+  width: 320px;  /* manja širina */
+  min-height: 70px; /* manja visina */
+  background: #333;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px; /* manji font da stane poruka */
+  text-align: center;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: transform 0.3s, background 0.3s;
+  padding: 12px;
+  user-select: none;
+  word-wrap: break-word;
+}
+
+.flashcard.clicked {
+  background: #ff69b4;
+  transform: scale(1.05);
+}
+
+/* Continue button */
+#continueBtn {
+  margin-top: 20px;
+  padding: 12px 35px;
+  font-size: 16px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  background: white;
+  color: black;
+}
+#continueBtn:hover {
+  opacity: 0.85;
+}
+
+/* Floating hearts */
+.heart {
+  position: absolute;
+  font-size: 18px;
+  animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-700px); opacity: 0; }
+}
+
+/* Stil scrollbar-a */
+.flashcards-container::-webkit-scrollbar {
+  width: 10px;
+}
+.flashcards-container::-webkit-scrollbar-track {
+  background: #222;
+  border-radius: 5px;
+}
+.flashcards-container::-webkit-scrollbar-thumb {
+  background: #ff69b4;
+  border-radius: 5px;
+}
+</style>
+</head>
+<body>
+
+<h1>Click on Flashcards to see the message!</h1>
+
+<div class="flashcards-container" id="flashcardsContainer">
+  <div class="flashcard" data-answer="You are beautiful">1</div>
+  <div class="flashcard" data-answer="You are not fat">2</div>
+  <div class="flashcard" data-answer="You don't have
+ shkembe chorba">3</div>
+  <div class="flashcard" data-answer="You make me smile
+ every time you are smiling">4</div>
+  <div class="flashcard" data-answer="Being with you feels amazing">5</div>
+</div>
+
+<button id="continueBtn" onclick="goNext()">Continue 💜</button>
+
+<script>
+// Flashcards click logic
+const flashcards = document.querySelectorAll(".flashcard");
+
+flashcards.forEach(card => {
+  card.addEventListener("click", () => {
+    card.textContent = card.dataset.answer; // prikazuje poruku direktno na kartici
+    card.classList.add("clicked");
+  });
+});
+
+// Continue button logic
+function goNext() {
+  window.location.href = "joke.html";
+}
+
+// floating hearts
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.style.left = Math.random() * window.innerWidth + "px";
+  heart.innerText = "💜";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}
+setInterval(createHeart, 900);
+</script>
+
+</body>
+</html>

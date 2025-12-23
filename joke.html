@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>System Loading...</title>
+
+<style>
+body {
+  background: #6a0dad;
+  color: white;
+  font-family: "Courier New", monospace;
+  padding: 40px 15px;
+  text-align: center;
+  overflow: hidden;
+}
+
+h1 {
+  margin-bottom: 25px;
+}
+
+/* Terminal box */
+.terminal {
+  background: rgba(0,0,0,0.65);
+  padding: 20px;
+  border-radius: 14px;
+  max-width: 520px;
+  margin: auto;
+  text-align: left;
+}
+
+/* Hacker text */
+.line {
+  color: #00ff7f;
+  margin-bottom: 8px;
+  opacity: 0;
+  animation: fadeIn 0.4s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* Progress bar */
+.progress-container {
+  margin: 20px auto;
+  width: 100%;
+  max-width: 520px;
+  background: #333;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 12px;
+  width: 0%;
+  background: #00ff7f;
+  transition: 0.4s;
+}
+
+.status {
+  margin-top: 10px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Access + Continue */
+.access {
+  display: none;
+  margin-top: 25px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #00ff7f;
+}
+
+.access button {
+  margin-left: 15px;
+  padding: 8px 25px;
+  font-size: 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  background: white;
+  color: #6a0dad;
+}
+
+/* Floating hearts */
+.heart {
+  position: absolute;
+  font-size: 18px;
+  animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-700px); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<h1>⚠️ Now I will hack you, be careful ⚠️</h1>
+
+<div class="terminal" id="terminal"></div>
+
+<div class="progress-container">
+  <div class="progress-bar" id="progress"></div>
+</div>
+
+<div class="status" id="statusText">Starting process...</div>
+
+<div class="access" id="accessBox">
+  ACCESS GRANTED ✔
+  <button onclick="goNext()">Continue 💜</button>
+</div>
+
+<script>
+const terminal = document.getElementById("terminal");
+const progress = document.getElementById("progress");
+const statusText = document.getElementById("statusText");
+const accessBox = document.getElementById("accessBox");
+
+const lines = [
+  "Initializing system...",
+  "Bypassing firewall...",
+  "Scanning target...",
+  "Loading country...",
+  "Country found: Bulgaria 🇧🇬",
+  "Loading city...",
+  "City found: Sofia",
+  "Loading address...",
+  "Address found: You know I don't know your address 😂",
+  "",
+  "Relax.",
+  "This was just a joke.",
+  "But one thing is real..."
+];
+
+let i = 0;
+let progressValue = 0;
+
+function typeLine() {
+  if (i < lines.length) {
+    const line = document.createElement("div");
+    line.className = "line";
+    line.textContent = lines[i];
+    terminal.appendChild(line);
+
+    i++;
+    progressValue += 100 / lines.length;
+    progress.style.width = progressValue + "%";
+    statusText.textContent = "Processing...";
+
+    setTimeout(typeLine, 1200);
+  } else {
+    statusText.textContent = "Process complete.";
+    setTimeout(() => {
+      accessBox.style.display = "block";
+    }, 1500);
+  }
+}
+
+typeLine();
+
+function goNext() {
+  window.location.href = "love.html";
+}
+
+/* Floating hearts */
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.style.left = Math.random() * window.innerWidth + "px";
+  heart.innerText = "💜";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}
+
+setInterval(createHeart, 900);
+</script>
+
+</body>
+</html>

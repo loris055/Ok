@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Adyush ❤️</title>
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px 20px;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+    }
+
+    .highlight {
+      color: #ff4da6;
+      font-weight: bold;
+    }
+
+    /* fade-in animacija */
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* lebdeća srca */
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      animation: floatUp 5s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-600px) scale(1.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Happy Birthday, my love ❤️</h1>
+
+<p class="highlight">
+I don’t say it all the time, but you really mean a lot to me.<br>
+I care about you deeply.
+</p>
+
+<p>
+I’m really happy you exist.<br>
+You make everything feel brighter and more special.
+</p>
+
+<script>
+// lebdeća srca
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.classList.add('heart');
+  heart.style.left = Math.random() * window.innerWidth + 'px';
+  heart.innerText = '❤️';
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 5000);
+}
+
+// stvaraj srca svakih 300ms
+setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>
