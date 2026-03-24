@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Happy Birthday Adyush ❤️</title>
   <style>
     body {
@@ -11,11 +12,13 @@
       text-align: center;
       padding: 50px 20px;
       overflow: hidden;
+      touch-action: manipulation;
     }
 
     h1 {
       font-size: 30px;
       margin-bottom: 20px;
+      color: #ff69b4;
     }
 
     p {
@@ -31,21 +34,50 @@
       font-weight: bold;
     }
 
-    /* fade-in animacija */
     @keyframes fadeIn {
       to { opacity: 1; }
     }
 
-    /* lebdeća srca */
     .heart {
       position: absolute;
       font-size: 20px;
       animation: floatUp 5s linear infinite;
+      pointer-events: none;
     }
 
     @keyframes floatUp {
       0% { transform: translateY(0) scale(1); opacity: 1; }
       100% { transform: translateY(-600px) scale(1.5); opacity: 0; }
+    }
+
+    #musicCard, #nextPageBtn {
+      margin-top: 15px;
+      padding: 15px 30px;
+      font-size: 18px;
+      background: #333;
+      color: white;
+      border: 2px solid #ff69b4;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+      display: inline-block;
+      width: 200px;
+      font-weight: bold;
+    }
+
+    #musicCard.clicked, #nextPageBtn.clicked {
+      background: #ff69b4;
+      transform: scale(0.95);
+      box-shadow: 0 0 15px #ff69b4;
+    }
+
+    .btn-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 30px;
     }
   </style>
 </head>
@@ -61,11 +93,21 @@ I care about you deeply.
 <p>
 I’m really happy you exist.<br>
 You make everything feel brighter and more special. <br>
-And I hope you are now smiling like I am
+And I hope you are now smiling like I am. <br>
+And yeah, your eyes are really beautiful
 </p>
 
+<div class="btn-container">
+  <button id="musicCard">Click to play music</button>
+  <button id="nextPageBtn">Click for next 💜</button>
+</div>
+
+<audio id="bgMusic" preload="auto">
+  <source src="SamoPoTatusi3.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-// lebdeća srca
+// Lebdeća srca
 function createHeart() {
   const heart = document.createElement('div');
   heart.classList.add('heart');
@@ -74,9 +116,57 @@ function createHeart() {
   document.body.appendChild(heart);
   setTimeout(() => heart.remove(), 5000);
 }
-
-// stvaraj srca svakih 300ms
 setInterval(createHeart, 300);
+
+const musicCard = document.getElementById("musicCard");
+const music = document.getElementById("bgMusic");
+const nextBtn = document.getElementById("nextPageBtn");
+
+// Muzika logika
+musicCard.onclick = function() {
+  music.play().catch(() => {});
+  this.textContent = "Music: On 🎵";
+  this.classList.add("clicked");
+};
+
+// PRE-FETCH iduće stranice
+const pre = document.createElement('link');
+pre.rel = 'prefetch';
+pre.href = 'onemorething.html';
+document.head.appendChild(pre);
+
+// Glavna logika za siguran prijelaz
+nextBtn.onclick = function() {
+  // 1. Vizualni feedback
+  this.textContent = "Loading...";
+  this.classList.add("clicked");
+  
+  // 2. AGRESIVNO GAŠENJE MUZIKE
+  // Ovo rješava glitch: pauziramo, smanjimo ton i mičemo izvor
+  try {
+    music.pause();
+    music.volume = 0;
+    music.src = ""; // "Ispiremo" audio iz memorije
+    music.load();
+    music.remove(); 
+  } catch(e) { console.log("Audio već ugašen"); }
+
+  // 3. TRIPLE TRIGGER NAVIGACIJA
+  const target = "onemorething.html?v=" + new Date().getTime();
+
+  // Pokušaj 1
+  window.location.href = target;
+
+  // Pokušaj 2 (ako prvi zapne)
+  setTimeout(() => {
+    window.location.assign(target);
+  }, 100);
+
+  // Pokušaj 3 (zadnja nada)
+  setTimeout(() => {
+    window.location.replace(target);
+  }, 250);
+};
 </script>
 
 </body>

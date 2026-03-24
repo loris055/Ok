@@ -11,7 +11,8 @@ body {
   font-family: "Courier New", monospace;
   padding: 40px 15px;
   text-align: center;
-  overflow: hidden;
+  overflow-x: hidden;
+  margin: 0;
 }
 
 h1 {
@@ -26,6 +27,21 @@ h1 {
   max-width: 520px;
   margin: auto;
   text-align: left;
+  max-height: 45vh;
+  overflow-y: auto;
+}
+
+/* Scrollbar (isti feeling kao index.html) */
+.terminal::-webkit-scrollbar {
+  width: 10px;
+}
+.terminal::-webkit-scrollbar-track {
+  background: #2b0a3d;
+  border-radius: 5px;
+}
+.terminal::-webkit-scrollbar-thumb {
+  background: #ff69b4;
+  border-radius: 5px;
 }
 
 /* Hacker text */
@@ -54,7 +70,7 @@ h1 {
   height: 12px;
   width: 0%;
   background: #00ff7f;
-  transition: 0.4s;
+  transition: width 0.4s;
 }
 
 .status {
@@ -81,6 +97,9 @@ h1 {
   cursor: pointer;
   background: white;
   color: #6a0dad;
+}
+.access button:hover {
+  opacity: 0.85;
 }
 
 /* Floating hearts */
@@ -111,7 +130,7 @@ h1 {
 
 <div class="access" id="accessBox">
   ACCESS GRANTED ✔
-  <button onclick="goNext()">Continue 💜</button>
+  <button id="continueBtn">Continue 💜</button>
 </div>
 
 <script>
@@ -119,6 +138,7 @@ const terminal = document.getElementById("terminal");
 const progress = document.getElementById("progress");
 const statusText = document.getElementById("statusText");
 const accessBox = document.getElementById("accessBox");
+const continueBtn = document.getElementById("continueBtn");
 
 const lines = [
   "Initializing system...",
@@ -138,13 +158,19 @@ const lines = [
 
 let i = 0;
 let progressValue = 0;
+let pageActive = true; // ⬅️ Popravljeno: flag za stabilnost
 
 function typeLine() {
+  if (!pageActive) return; // ⬅️ Zaustavi ako je kliknut Continue
+
   if (i < lines.length) {
     const line = document.createElement("div");
     line.className = "line";
     line.textContent = lines[i];
     terminal.appendChild(line);
+
+    // auto-scroll na dno
+    terminal.scrollTop = terminal.scrollHeight;
 
     i++;
     progressValue += 100 / lines.length;
@@ -156,15 +182,11 @@ function typeLine() {
     statusText.textContent = "Process complete.";
     setTimeout(() => {
       accessBox.style.display = "block";
-    }, 1500);
+    }, 1200);
   }
 }
 
 typeLine();
-
-function goNext() {
-  window.location.href = "love.html";
-}
 
 /* Floating hearts */
 function createHeart() {
@@ -176,7 +198,17 @@ function createHeart() {
   setTimeout(() => heart.remove(), 6000);
 }
 
-setInterval(createHeart, 900);
+const heartInterval = setInterval(createHeart, 900);
+
+/* Continue */
+continueBtn.addEventListener("click", () => {
+  pageActive = false;              // ⬅️ Stop all loops & timeouts
+  clearInterval(heartInterval);
+
+  setTimeout(() => {
+    window.location.href = "love.html";
+  }, 100);
+});
 </script>
 
 </body>

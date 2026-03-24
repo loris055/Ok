@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>One More Thing ❤️</title>
+<style>
+  /* --- GLOBALNI STIL --- */
+  * { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; user-select: none; -webkit-user-select: none; }
+  html, body { margin: 0; padding: 0; font-family: Arial, sans-serif; color: white; text-align: center; background: #0f0f0f; min-height: 100vh; }
+
+  /* INTRO SECTIONS */
+  #introSection { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; background: linear-gradient(135deg, #2c003e, #4b0082); min-height: 100vh; box-sizing: border-box; }
+  h1 { margin-bottom: 25px; font-size: 26px; color: #ff69b4; }
+  .ady-img { max-width: 80%; height: auto; border-radius: 15px; box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); margin-bottom: 20px; }
+  .text-p { font-size: 18px; line-height: 1.6; max-width: 600px; background: rgba(0,0,0,0.4); padding: 15px 20px; border-radius: 12px; margin-bottom: 15px; }
+  .explanation { background: rgba(255, 255, 255, 0.1); border: 2px solid #ff69b4; padding: 20px; border-radius: 15px; max-width: 600px; margin: 20px 0; }
+  #toGameBtn { margin-top: 10px; padding: 18px 45px; font-size: 18px; background: #333; color: white; border: 2px solid #ff69b4; border-radius: 15px; cursor: pointer; font-weight: bold; }
+
+  /* GAME SECTION */
+  #gameSection { display: none; background: #0f0f0f; padding-top: 10px; touch-action: none; }
+  #gameContainer { width: 350px; height: 400px; margin: 0 auto; border: 4px solid #555; background: #111; overflow: hidden; position: relative; }
+  #level { position: relative; width: 100%; height: 5800px; }
+  .player { position: absolute; width: 28px; height: 28px; background: #ff69b4; border-radius: 6px; box-shadow: 0 0 10px #ff69b4; z-index: 10; }
+  .wall { position: absolute; background: white; }
+  .solid-object { position: absolute; background: rgba(138, 43, 226, 0.8); display: flex; align-items: center; justify-content: center; font-size: 50px; border-radius: 15px; z-index: 5; border: 3px solid #ff69b4; }
+  .checkpoint { position: absolute; width: 100%; height: 20px; background: rgba(33, 150, 243, 0.5); border-top: 2px solid #2196F3; color: white; font-size: 10px; line-height: 20px; }
+  .finish { position: absolute; width: 100px; height: 50px; background: #ffff00; border-radius: 15px; color: black; font-weight: bold; line-height: 50px; font-size: 14px; z-index: 5; box-shadow: 0 0 15px #ffff00; }
+
+  /* CONTROLS */
+  .controls { margin-top: 15px; display: grid; justify-content: center; gap: 8px; grid-template-areas: ". up ." "left down right"; }
+  .btn-game { width: 75px; height: 75px; background: #333; border: 2px solid #ff69b4; color: white; font-size: 30px; border-radius: 15px; display: flex; align-items: center; justify-content: center; }
+  #up { grid-area: up; } #left { grid-area: left; } #down { grid-area: down; } #right { grid-area: right; }
+
+  #messageBox { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.95); padding: 25px; border: 2px solid #ff69b4; border-radius: 15px; z-index: 100; width: 280px; }
+  #continueBtn { margin-top: 15px; padding: 15px; background: #ff69b4; border: none; border-radius: 10px; color: white; font-weight: bold; width: 100%; font-size: 16px; cursor: pointer; }
+
+  /* NOVI KRAJ (CHECKLIST SEKCIJA) */
+  #checklistSection { display: none; padding: 40px 20px; background: #0f0f0f; color: #eee; min-height: 100vh; box-sizing: border-box; }
+  .end-img { max-width: 90%; height: auto; border-radius: 15px; box-shadow: 0 0 20px rgba(255, 105, 180, 0.5); margin-bottom: 10px; }
+  .end-box { background: rgba(255, 255, 255, 0.1); border: 2px solid #ff69b4; padding: 15px; border-radius: 12px; margin: 10px auto; max-width: 320px; font-size: 18px; line-height: 1.4; }
+  .sub-text { font-size: 16px; color: #ff69b4; margin-top: 5px; font-style: italic; }
+  .final-note { margin-top: 40px; font-size: 20px; font-weight: bold; color: white; }
+</style>
+</head>
+<body oncontextmenu="return false;">
+
+<div id="introSection">
+  <h1>One More Thing ❤️</h1>
+  <img src="Adyush.jpg" alt="Adyush" class="ady-img">
+  <p class="text-p">This is the picture I look at every day.<br>Now you can see it too, if you ever wondered hahaha.</p>
+  <div class="explanation">
+    When I said I felt like I could lose you, I didn't mean you were the problem.<br>
+    I meant you matter to me and I was scared of hurting you.
+  </div>
+  <button id="toGameBtn">Click for Game 🎮</button>
+</div>
+
+<div id="gameSection">
+  <h1 style="font-size: 20px; margin: 10px 0;">Maze for My Queen ❤️</h1>
+  <div id="gameContainer">
+    <div id="level">
+      <div class="player" id="player"></div>
+      
+      <div class="wall" style="top:150px; left:0; width:150px; height:30px;"></div>
+      <div class="wall" style="top:250px; left:200px; width:150px; height:30px;"></div>
+      <div class="checkpoint" style="top:400px;" data-spawn="420" data-index="1">CHECKPOINT 1</div>
+      <div class="wall" style="top:550px; left:50px; width:250px; height:20px;"></div>
+      <div class="wall" style="top:700px; left:0; width:250px; height:20px;"></div>
+      <div class="wall" style="top:850px; left:100px; width:250px; height:20px;"></div>
+      <div class="checkpoint" style="top:980px;" data-spawn="1000" data-index="2">CHECKPOINT 2</div>
+      <div class="wall" style="top:1100px; left:30px; width:30px; height:600px;"></div>
+      <div class="wall" style="top:1100px; left:290px; width:30px; height:600px;"></div>
+      <div class="solid-object" style="top:1300px; left:125px; width:100px; height:100px;">💜</div>
+      <div class="wall" style="top:1650px; left:0px; width:155px; height:25px;"></div>
+      <div class="wall" style="top:1650px; left:210px; width:150px; height:25px;"></div>
+      <div class="checkpoint" style="top:1800px;" data-spawn="1820" data-index="3">CHECKPOINT 3</div>
+      <div class="wall" style="top:1950px; left:0; width:280px; height:20px;"></div>
+      <div class="wall" style="top:2100px; left:70px; width:280px; height:20px;"></div>
+      <div class="wall" style="top:2250px; left:0; width:20px; height:600px;"></div>
+      <div class="wall" style="top:2250px; left:330px; width:20px; height:600px;"></div>
+      <div class="wall" style="top:2500px; left:100px; width:150px; height:20px;"></div>
+      <div class="wall" style="top:2700px; left:20px; width:200px; height:20px;"></div>
+      <div class="wall" style="top:2830px; left:20px; width:200px; height:20px;"></div>
+      
+      <div class="checkpoint" style="top:3000px;" data-spawn="3020" data-index="4">CHECKPOINT 4</div>
+
+      <div class="wall" style="top:3050px; left:0; width:20px; height:1200px;"></div>
+      <div class="wall" style="top:3050px; left:330px; width:20px; height:1200px;"></div>
+
+      <div class="wall" style="top:3150px; left:20px; width:240px; height:20px;"></div> 
+      <div class="wall" style="top:3150px; left:260px; width:20px; height:300px;"></div> 
+      <div class="wall" style="top:3350px; left:80px; width:180px; height:20px;"></div> 
+      <div class="wall" style="top:3350px; left:80px; width:20px; height:350px;"></div> 
+      <div class="wall" style="top:3600px; left:160px; width:170px; height:20px;"></div> 
+      <div class="wall" style="top:3800px; left:20px; width:200px; height:20px;"></div> 
+      <div class="wall" style="top:4000px; left:80px; width:250px; height:20px;"></div> 
+      <div class="wall" style="top:4000px; left:80px; width:20px; height:200px;"></div> 
+      <div class="checkpoint" style="top:4300px;" data-spawn="4320" data-index="5">CHECKPOINT 5</div>
+
+      <div class="wall" style="top:4500px; left:50px; width:250px; height:20px;"></div>
+      <div class="wall" style="top:4700px; left:50px; width:20px; height:400px;"></div> 
+      <div class="wall" style="top:5100px; left:50px; width:250px; height:20px;"></div>
+      
+      <div class="finish" style="top:5400px; left:125px;" id="finish">FINISH 🏁</div>
+    </div>
+  </div>
+  <div class="controls">
+    <button class="btn-game" id="up">↑</button>
+    <button class="btn-game" id="left">←</button>
+    <button class="btn-game" id="down">↓</button>
+    <button class="btn-game" id="right">→</button>
+  </div>
+</div>
+
+<div id="messageBox">
+  <p id="msgText"></p>
+  <button id="continueBtn">CONTINUE</button>
+</div>
+
+<div id="checklistSection">
+  <img src="Adyush2.jpg" alt="Me" class="end-img">
+  
+  <div class="end-box">And ofc this is the picture I'm looking everyday now, bcs u r so beautiful bb hahahah. Im editing and testing this page now and every time im stopping and looking at you cuz u r f*****g beautiful</div>
+  
+  <div class="end-box">
+    Im sorry for saying your eyes might be green or brown. I just guessed brown randomly fr, so sorry about that. And I noticed your beautiful gray eyes 
+Myb I thought and said it can be green bcs I heard that gray eyes can change colour based on your mood or clothes colour.
+    <div class="sub-text">I'm not getting out now of my mistakes I'm just saying what's maybe happened</div>
+  </div>
+  
+  <div class="final-note">You can be honest with me, there’s absolutely no need to be embarrassed. Just remember that when I see you in person so you don’t feel shy around me hahah. 
+
+That's it bb. Hope you enjoyed</div>
+</div>
+
+<script>
+const toGameBtn = document.getElementById("toGameBtn");
+const intro = document.getElementById("introSection");
+const game = document.getElementById("gameSection");
+const checklist = document.getElementById("checklistSection");
+const continueBtn = document.getElementById("continueBtn");
+
+toGameBtn.onclick = () => { intro.style.display = "none"; game.style.display = "block"; loop(); };
+
+continueBtn.onclick = () => { 
+  document.getElementById("messageBox").style.display = "none"; 
+  game.style.display = "none"; 
+  checklist.style.display = "block"; 
+  document.body.style.overflow = "auto"; 
+};
+
+const player = document.getElementById("player");
+const container = document.getElementById("gameContainer");
+const finish = document.getElementById("finish");
+let pos = { x: 160, y: 20 }, spawnPoint = { x: 160, y: 20 };
+let keys = { up: false, down: false, left: false, right: false };
+let currentCheckpointIndex = 0, gameActive = true, animationFrameId;
+
+const handleInput = (id, state, e) => { 
+  if (e && e.cancelable) e.preventDefault(); 
+  keys[id] = state; 
+};
+
+["up", "down", "left", "right"].forEach(id => {
+  const btn = document.getElementById(id);
+  btn.addEventListener("touchstart", (e) => handleInput(id, true, e), {passive: false});
+  btn.addEventListener("touchend", (e) => handleInput(id, false, e), {passive: false});
+  btn.addEventListener("mousedown", () => keys[id] = true);
+  btn.addEventListener("mouseup", () => keys[id] = false);
+});
+
+function loop() {
+  if (!gameActive) return;
+  let nextX = pos.x, nextY = pos.y;
+  let speed = 4;
+  if (keys.up) nextY -= speed; if (keys.down) nextY += speed;
+  if (keys.left) nextX -= speed; if (keys.right) nextX += speed;
+  
+  if (nextX < 0) nextX = 0; if (nextX > 322) nextX = 322; if (nextY < 0) nextY = 0;
+
+  const solids = document.querySelectorAll(".solid-object");
+  let canX = true, canY = true;
+  solids.forEach(s => {
+    if (hitTest({x: nextX, y: pos.y}, s)) canX = false;
+    if (hitTest({x: pos.x, y: nextY}, s)) canY = false;
+  });
+  if (canX) pos.x = nextX; if (canY) pos.y = nextY;
+  
+  player.style.left = pos.x + "px"; player.style.top = pos.y + "px";
+  container.scrollTop = pos.y - 180;
+  
+  document.querySelectorAll(".wall").forEach(w => { if (hit(player, w)) respawn(); });
+  document.querySelectorAll(".checkpoint").forEach(c => {
+    if (hit(player, c)) {
+      let idx = parseInt(c.dataset.index);
+      if (idx >= currentCheckpointIndex) { 
+        currentCheckpointIndex = idx; 
+        spawnPoint.y = parseInt(c.dataset.spawn); 
+        c.style.background = "rgba(76, 175, 80, 0.5)"; 
+      }
+    }
+  });
+  if (hit(player, finish)) win();
+  animationFrameId = requestAnimationFrame(loop);
+}
+
+function hit(a, b) {
+  const r1 = a.getBoundingClientRect(), r2 = b.getBoundingClientRect();
+  const m = 4; return !(r1.right-m < r2.left || r1.left+m > r2.right || r1.bottom-m < r2.top || r1.top+m > r2.bottom);
+}
+
+function hitTest(pPos, obj) {
+  const r2 = obj.getBoundingClientRect(), cRect = container.getBoundingClientRect();
+  const r1 = { left: pPos.x + cRect.left, right: pPos.x + 28 + cRect.left, top: pPos.y + cRect.top - container.scrollTop, bottom: pPos.y + 28 + cRect.top - container.scrollTop };
+  return !(r1.right < r2.left || r1.left > r2.right || r1.bottom < r2.top || r1.top > r2.bottom);
+}
+
+function respawn() { pos.y = spawnPoint.y; pos.x = 160; }
+
+function win() {
+  gameActive = false; cancelAnimationFrame(animationFrameId);
+  document.getElementById("msgText").innerText = "Good job my love. I see that you played it and tried hard for me, bcs you were curious about what's at the end 💖";
+  document.getElementById("messageBox").style.display = "block";
+}
+</script>
+</body>
+</html>
+
